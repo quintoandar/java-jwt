@@ -1,6 +1,7 @@
 plugins {
   id 'groovy'
   id 'java'
+  id 'maven-publish'
 }
 
 group 'br.com.quintoandar'
@@ -31,5 +32,32 @@ wrapper {
 test {
   afterTest { desc, result ->
     println "Test [${desc.name}] was a ${result.resultType}"
+  }
+}
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      groupId = 'br.com.quintoandar'
+      artifactId = 'java-jwt'
+      version = '1.0'
+
+      pom {
+        name = '5A Java JWT'
+        description = 'Java JWT parser using QuintoAndar public key'
+
+        scm {
+          connection = 'scm:git:git@github.com:quintoandar/java-jwt.git'
+          developerConnection = 'scm:git:git@github.com:quintoandar/java-jwt.git'
+          url = 'https://github.com/quintoandar/java-jwt'
+        }
+      }
+    }
+  }
+
+  repositories {
+    maven {
+      url = "$projectDir/mvn-repo"
+    }
   }
 }
