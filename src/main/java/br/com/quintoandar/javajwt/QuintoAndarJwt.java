@@ -51,6 +51,7 @@ public class QuintoAndarJwt {
   private void setup() throws SetupException {
     try {
       logger.info("Setting up QuintoAndarJwt");
+      quintoAndarPublicKeyService.setup();
       KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
       X509EncodedKeySpec keySpec = getPublicKeySpec();
       RSAPublicKey publicKey = (RSAPublicKey) keyFactory.generatePublic(keySpec);
