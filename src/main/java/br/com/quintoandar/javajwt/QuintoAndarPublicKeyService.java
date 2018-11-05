@@ -21,6 +21,8 @@ public class QuintoAndarPublicKeyService {
 
     private final static String UTF_8 = "UTF-8";
 
+    private static final String AUTH_ENDPOINT = "/auth/key";
+
     private String JWT_MAIN_PATH;
 
     private Properties appProperties = new Properties();
@@ -30,7 +32,7 @@ public class QuintoAndarPublicKeyService {
                 new StringBuilder(Thread.currentThread().getContextClassLoader().getResource("").getPath()).append(
                         "application.properties").toString();
         appProperties.load(new FileInputStream(propertiesFileName));
-        JWT_MAIN_PATH = (String) appProperties.get("main.url");
+        JWT_MAIN_PATH = new StringBuilder((String) appProperties.get("main.url")).append(AUTH_ENDPOINT).toString();
     }
 
     // visible for testing
