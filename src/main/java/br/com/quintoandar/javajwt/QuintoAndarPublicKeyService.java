@@ -28,10 +28,9 @@ public class QuintoAndarPublicKeyService {
     private Properties appProperties = new Properties();
 
     protected void setup() throws IOException {
-        String propertiesFileName =
-                new StringBuilder(Thread.currentThread().getContextClassLoader().getResource("").getPath()).append(
-                        "application.properties").toString();
-        appProperties.load(new FileInputStream(propertiesFileName));
+        String propertiesPath =
+                Thread.currentThread().getContextClassLoader().getResource("application.properties").getPath();
+        appProperties.load(new FileInputStream(propertiesPath));
         JWT_MAIN_PATH = new StringBuilder((String) appProperties.get("main.url")).append(AUTH_ENDPOINT).toString();
     }
 
