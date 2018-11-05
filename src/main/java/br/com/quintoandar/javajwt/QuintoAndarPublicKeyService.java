@@ -12,7 +12,12 @@ import java.util.Properties;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import br.com.quintoandar.javajwt.config.QuintoandarProperties;
+
+@Component
 public class QuintoAndarPublicKeyService {
 
     private final static Logger logger = LoggerFactory.getLogger(QuintoAndarPublicKeyService.class);
@@ -23,19 +28,16 @@ public class QuintoAndarPublicKeyService {
 
     private static final String AUTH_ENDPOINT = "/auth/key";
 
-    private String JWT_MAIN_PATH;
+    private QuintoandarProperties quintoandarProperties;
 
-    private Properties appProperties = new Properties();
-
-    protected void setup() throws IOException {
-        String propertiesPath =
-                Thread.currentThread().getContextClassLoader().getResource("application.properties").getPath();
-        appProperties.load(new FileInputStream(propertiesPath));
-        JWT_MAIN_PATH = new StringBuilder((String) appProperties.get("main.url")).append(AUTH_ENDPOINT).toString();
+    @Autowired
+    public QuintoAndarPublicKeyService(QuintoandarProperties quintoandarProperties) {
+        this.quintoandarProperties = quintoandarProperties;
     }
 
     // visible for testing
     protected String fetchMainPublicKey() throws IOException {
+        String JWT_MAIN_PATH = quintoandarProperties.getMainUrl() + AUTH_ENDPOINT;
         logger.info("Opening connection to {}", JWT_MAIN_PATH);
         URL url = new URL(JWT_MAIN_PATH);
         URLConnection connection = url.openConnection();

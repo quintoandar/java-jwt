@@ -10,7 +10,7 @@ class QuintoAndarJwtSpec extends Specification {
   def publicKeyServiceMock = Mock(QuintoAndarPublicKeyService)
 
   @Shared
-  def subject = GroovySpy(QuintoAndarJwt)
+  def subject = GroovySpy(QuintoAndarJwtBean)
 
   @Shared
   def fakePublicKey2048bit = "-----BEGIN PUBLIC KEY-----\n" +
