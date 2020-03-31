@@ -1,23 +1,17 @@
 package br.com.quintoandar.javajwt;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Properties;
-
+import br.com.quintoandar.javajwt.config.QuintoandarProperties;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import br.com.quintoandar.javajwt.config.QuintoandarProperties;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
-@Component
 public class QuintoAndarPublicKeyService {
 
     private final static Logger logger = LoggerFactory.getLogger(QuintoAndarPublicKeyService.class);

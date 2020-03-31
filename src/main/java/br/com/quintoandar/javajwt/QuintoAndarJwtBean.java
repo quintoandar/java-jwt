@@ -1,5 +1,13 @@
 package br.com.quintoandar.javajwt;
 
+import org.jose4j.jwk.RsaJsonWebKey;
+import org.jose4j.jwt.consumer.InvalidJwtException;
+import org.jose4j.jwt.consumer.JwtConsumer;
+import org.jose4j.jwt.consumer.JwtConsumerBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.io.IOException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -10,16 +18,6 @@ import java.util.Base64;
 import java.util.Map;
 import java.util.Optional;
 
-import org.jose4j.jwk.RsaJsonWebKey;
-import org.jose4j.jwt.consumer.InvalidJwtException;
-import org.jose4j.jwt.consumer.JwtConsumer;
-import org.jose4j.jwt.consumer.JwtConsumerBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-@Component
 public class QuintoAndarJwtBean implements QuintoAndarJwt {
 
     private final static Logger logger = LoggerFactory.getLogger(QuintoAndarJwtBean.class);
