@@ -1,5 +1,13 @@
 package br.com.quintoandar.javajwt;
 
+import org.jose4j.jwk.RsaJsonWebKey;
+import org.jose4j.jwt.consumer.InvalidJwtException;
+import org.jose4j.jwt.consumer.JwtConsumer;
+import org.jose4j.jwt.consumer.JwtConsumerBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.io.IOException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -10,33 +18,23 @@ import java.util.Base64;
 import java.util.Map;
 import java.util.Optional;
 
-import org.jose4j.jwk.RsaJsonWebKey;
-import org.jose4j.jwt.consumer.InvalidJwtException;
-import org.jose4j.jwt.consumer.JwtConsumer;
-import org.jose4j.jwt.consumer.JwtConsumerBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-@Component
 public class QuintoAndarJwtBean implements QuintoAndarJwt {
 
-    private final static Logger logger = LoggerFactory.getLogger(QuintoAndarJwtBean.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(QuintoAndarJwtBean.class);
 
-    private final static String KEY_ALGORITHM = "RSA";
+    private static final String KEY_ALGORITHM = "RSA";
 
     private QuintoAndarPublicKeyService quintoAndarPublicKeyService;
 
     private JwtConsumer jwtConsumer;
 
     @Autowired
-    public QuintoAndarJwtBean(QuintoAndarPublicKeyService quintoAndarPublicKeyService) {
+    public QuintoAndarJwtBean(final QuintoAndarPublicKeyService quintoAndarPublicKeyService) {
         this.quintoAndarPublicKeyService = quintoAndarPublicKeyService;
     }
 
     @Override
-    public Optional<Map<String, Object>> getPayload(String jwt) throws InvalidJwtException {
+    public Optional<Map<String, Object>> getPayload(final String jwt) throws InvalidJwtException {
         if (jwt == null) {
             return Optional.empty();
         }
@@ -45,22 +43,22 @@ public class QuintoAndarJwtBean implements QuintoAndarJwt {
             try {
                 setup();
             } catch (SetupException e) {
-                logger.error("Failed to setup QuintoAndarJwtBean", e);
+                LOGGER.error("Failed to setup QuintoAndarJwtBean", e);
                 return Optional.empty();
             }
         }
 
-        Map<String, Object> payload = jwtConsumer.processToClaims(jwt).getClaimsMap();
+        final Map<String, Object> payload = jwtConsumer.processToClaims(jwt).getClaimsMap();
         return Optional.ofNullable(payload);
     }
 
     private void setup() throws SetupException {
         try {
-            logger.info("Setting up QuintoAndarJwtBean");
-            KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
-            X509EncodedKeySpec keySpec = getPublicKeySpec();
-            RSAPublicKey publicKey = (RSAPublicKey) keyFactory.generatePublic(keySpec);
-            RsaJsonWebKey webKey = new RsaJsonWebKey(publicKey);
+            LOGGER.info("Setting up QuintoAndarJwtBean");
+            final KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
+            final X509EncodedKeySpec keySpec = getPublicKeySpec();
+            final RSAPublicKey publicKey = (RSAPublicKey) keyFactory.generatePublic(keySpec);
+            final RsaJsonWebKey webKey = new RsaJsonWebKey(publicKey);
             jwtConsumer = new JwtConsumerBuilder().setVerificationKey(webKey.getKey()).build();
         } catch (NoSuchAlgorithmException | IOException | InvalidKeySpecException e) {
             throw new SetupException(e);
@@ -79,13 +77,13 @@ public class QuintoAndarJwtBean implements QuintoAndarJwt {
         return new X509EncodedKeySpec(decodedKey);
     }
 
-    private String strippedKey(String publicKey) {
+    private String strippedKey(final String publicKey) {
         return publicKey.replaceAll("-----(BEGIN|END) PUBLIC KEY-----", "")
                         .replaceAll("\\n", "");
     }
 
     // visible for testing
-    protected void setQuintoAndarPublicKeyService(QuintoAndarPublicKeyService quintoAndarPublicKeyService) {
+    protected void setQuintoAndarPublicKeyService(final QuintoAndarPublicKeyService quintoAndarPublicKeyService) {
         this.quintoAndarPublicKeyService = quintoAndarPublicKeyService;
     }
 

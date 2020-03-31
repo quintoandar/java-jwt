@@ -1,18 +1,17 @@
 package br.com.quintoandar.javajwt;
 
+import br.com.quintoandar.javajwt.config.QuintoandarProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import br.com.quintoandar.javajwt.config.QuintoandarProperties;
-
 @Configuration
 public class QuintoandarJwtConfiguration {
 
-    private QuintoandarProperties quintoandarProperties;
+    private final QuintoandarProperties quintoandarProperties;
 
     @Autowired
-    public QuintoandarJwtConfiguration(QuintoandarProperties quintoandarProperties) {
+    public QuintoandarJwtConfiguration(final QuintoandarProperties quintoandarProperties) {
         this.quintoandarProperties = quintoandarProperties;
     }
 
