@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class QuintoandarJwtConfiguration {
 
-    private QuintoandarProperties quintoandarProperties;
+    private final QuintoandarProperties quintoandarProperties;
 
     @Autowired
-    public QuintoandarJwtConfiguration(QuintoandarProperties quintoandarProperties) {
+    public QuintoandarJwtConfiguration(final QuintoandarProperties quintoandarProperties) {
         this.quintoandarProperties = quintoandarProperties;
     }
 

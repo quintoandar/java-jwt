@@ -1,9 +1,9 @@
 package br.com.quintoandar.javajwt;
 
+import org.jose4j.jwt.consumer.InvalidJwtException;
+
 import java.util.Map;
 import java.util.Optional;
-
-import org.jose4j.jwt.consumer.InvalidJwtException;
 
 public interface QuintoAndarJwt {
 

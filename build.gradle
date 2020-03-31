@@ -2,6 +2,7 @@ plugins {
   id 'groovy'
   id 'java'
   id 'maven-publish'
+  id 'checkstyle'
 }
 
 group 'br.com.quintoandar'
@@ -13,6 +14,8 @@ targetCompatibility = JavaVersion.VERSION_11
 repositories {
   mavenCentral()
 }
+
+apply from: "${rootProject.rootDir}/config/checkstyle.gradle"
 
 dependencies {
     compile('org.springframework.boot:spring-boot-autoconfigure:2.0.4.RELEASE')
