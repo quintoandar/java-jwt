@@ -14,41 +14,40 @@ class QuintoAndarKeycloakJwtSpec extends Specification {
 
   @Shared
   def fakePublicKey2048bit = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AM\n" +
-      "IIBCgKCAQEA6A+CGRKw/xpaAqy/1eJlf5urRzmUWhgGVNedUhmgMudMBQIXPYVOW\n" +
-      "QQydWq/e+SaxdT7fRQE/Ae0eOCPgwtyFmLoA/ugGT0AGF5juXBzCwXY9iLdIejQP\n" +
-      "DbbVVMICFteRCDkLaLZy4U3qj895TzZHg7gXwo4l3oi4EUT6MchMANGw4D4/SIZc\n" +
-      "dzm9R/pV9+AHYaA1k8YP612YXFe4W39ZPXuQrz/Lnys7MgPo/NSpKmxMp82el/vV\n" +
-      "W9wlQKA4fY/zz7GgfsUf25hVpnCC8V6b1kIU+5TfYSjTThHfSqI8aDIXohIiQu3K\n" +
-      "ISNXqJV4Tx+PMqeQkKT0GIaqKM+b4jPWQIDAQAB"
+      "IIBCgKCAQEAnzyis1ZjfNB0bBgKFMSvvkTtwlvBsaJq7S5wA+kzeVOVpVWwkWdVh\n" +
+      "a4s38XM/pa/yr47av7+z3VTmvDRyAHcaT92whREFpLv9cj5lTeJSibyr/Mrm/Ytj\n" +
+      "CZVWgaOYIhwrXwKLqPr/11inWsAkfIytvHWTxZYEcXLgAXFuUuaS3uF9gEiNQwzG\n" +
+      "TU1v0FqkqTBr4B8nW3HCN47XUu0t8Y0e+lf4s4OxQawWD79J9/5d3Ry0vbV3Am1F\n" +
+      "tGJiJvOwRsIfVChDpYStTcHTCMqtvWbV6L11BWkpzGXSW4Hv43qa+GSYOD2QU68M\n" +
+      "b59oSk2OB+BtOLpJofmbGEGgvmwyCI9MwIDAQAB"
 
   @Shared
   def fakePrivateKey2048bit = "-----BEGIN PRIVATE KEY-----\n" +
-      "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDoD4IZErD/GloC\n" +
-      "rL/V4mV/m6tHOZRaGAZU151SGaAy50wFAhc9hU5ZBDJ1ar975JrF1Pt9FAT8B7R4\n" +
-      "4I+DC3IWYugD+6AZPQAYXmO5cHMLBdj2It0h6NA8NttVUwgIW15EIOQtotnLhTeq\n" +
-      "Pz3lPNkeDuBfCjiXeiLgRRPoxyEwA0bDgPj9Ihlx3Ob1H+lX34AdhoDWTxg/rXZh\n" +
-      "cV7hbf1k9e5CvP8ufKzsyA+j81KkqbEynzZ6X+9Vb3CVAoDh9j/PPsaB+xR/bmFW\n" +
-      "mcILxXpvWQhT7lN9hKNNOEd9KojxoMheiEiJC7cohI1eolXhPH48yp5CQpPQYhqo\n" +
-      "oz5viM9ZAgMBAAECggEBAMteW+tRQCAwndVeQzhUEhNE/1OKGILkLxhHZS3AG27A\n" +
-      "2RRCgs99de35CadxB6Kx8xmQz10MIFom/ng4hEyZyT/pKd/jsqirltvETK0E6S0t\n" +
-      "0LfUUesXtvYuNQWPoKiCOhiGorGD2E7Nzry6c6nkK3p2GxfvQy0s8keNAier61/A\n" +
-      "tAuY+vCQUdCV8v3KFy6edKSj7T0e94kNNYi+lTPLq28f0LfhjFT0DhfWI49wh1Vq\n" +
-      "Tn61bAX0wI0pyc5OIdMMoLQ37aez9iwHCRvYFCuYpaHleNaQ3FpxLaoPrSCQxGyT\n" +
-      "R1MQq51Bbh+MJI7DXO8TJw5ZVoX86tCStR0XdqcGnCkCgYEA9/rO8u2cCNYAxRPk\n" +
-      "n3VHZpmYq9Gvrbq+TbfJxgODCS9kJYAgwN1aeSzhO4nustrHT/B4jLSlR82Qi66Z\n" +
-      "+oaVXWygk5XVdLPMmO2rabDWsQWSWxBli1ez8DAflM+CFm9y1hKxMJiPbC8alZea\n" +
-      "fheiLjOMKElf94mBfobkeUEEmOMCgYEA75Dk/GY2Xel67f08g7X6cI+z4QMtedWd\n" +
-      "5BL63AujBEdZNobazhSDQmoiKqoBhwGertiskNmYpJ21uzA0FrSaO6AUx/5jTgNc\n" +
-      "TCwg2J6gXl+XOKJZ4xTu4ALImFyG4SZ5/QBKBrLs+dacOAnj7WvWvnaWph0rhzR/\n" +
-      "ZdWBUHO295MCgYBEJ26RXbSwyQBVKe5/1N/W1wga0PqTqOt8uLJ/9Z8h+yBvHhPi\n" +
-      "bfPbsfYFQxeTmIWG9vRq14tFfL3pZgdzz2Fl1+EaLugHtxLYRRoDZlLbPEjJNmxy\n" +
-      "K5yMuu0zHQUH3YGWTHTegk+I0DliO9R+K0irogc3W1NA2U351GEe4ju9OQKBgQC6\n" +
-      "27ugG2GgkrKt2u5OlazIC250vfPEqhhDg4JkDDeU6MnvO/SC9YEEVqBbwsr6MQtC\n" +
-      "ugKv4OmszM6pOQoIA8qhY1WSQRvYB8sAJxNfoyrXMZxUMl4GP5eq5sDsBo+2IjrY\n" +
-      "WldjLkClBv5Gv4Am+gw/92O+IdaH2Szdk1EQHZHDPQKBgGx3aAvS68WwA1smzI0Y\n" +
-      "i9zSBlBtqWX3ISAD20c/Oy5jK7YJEn307KqOXYpSNj6D544MffaZvMPafc/6zXmc\n" +
-      "OhyX9yMqdsl3SpJ8HsCD70eBIbS3kIttPb0rMXP/hyX/v/DL3GW0jr4vH9ThkYKQ\n" +
-      "Q23FiefzA2cYDohWY25jrl4f\n" +
+      "MIIEogIBAAKCAQEAnzyis1ZjfNB0bBgKFMSvvkTtwlvBsaJq7S5wA+kzeVOVpVWw\n" +
+      "kWdVha4s38XM/pa/yr47av7+z3VTmvDRyAHcaT92whREFpLv9cj5lTeJSibyr/Mr\n" +
+      "m/YtjCZVWgaOYIhwrXwKLqPr/11inWsAkfIytvHWTxZYEcXLgAXFuUuaS3uF9gEi\n" +
+      "NQwzGTU1v0FqkqTBr4B8nW3HCN47XUu0t8Y0e+lf4s4OxQawWD79J9/5d3Ry0vbV\n" +
+      "3Am1FtGJiJvOwRsIfVChDpYStTcHTCMqtvWbV6L11BWkpzGXSW4Hv43qa+GSYOD2\n" +
+      "QU68Mb59oSk2OB+BtOLpJofmbGEGgvmwyCI9MwIDAQABAoIBACiARq2wkltjtcjs\n" +
+      "kFvZ7w1JAORHbEufEO1Eu27zOIlqbgyAcAl7q+/1bip4Z/x1IVES84/yTaM8p0go\n" +
+      "amMhvgry/mS8vNi1BN2SAZEnb/7xSxbflb70bX9RHLJqKnp5GZe2jexw+wyXlwaM\n" +
+      "+bclUCrh9e1ltH7IvUrRrQnFJfh+is1fRon9Co9Li0GwoN0x0byrrngU8Ak3Y6D9\n" +
+      "D8GjQA4Elm94ST3izJv8iCOLSDBmzsPsXfcCUZfmTfZ5DbUDMbMxRnSo3nQeoKGC\n" +
+      "0Lj9FkWcfmLcpGlSXTO+Ww1L7EGq+PT3NtRae1FZPwjddQ1/4V905kyQFLamAA5Y\n" +
+      "lSpE2wkCgYEAy1OPLQcZt4NQnQzPz2SBJqQN2P5u3vXl+zNVKP8w4eBv0vWuJJF+\n" +
+      "hkGNnSxXQrTkvDOIUddSKOzHHgSg4nY6K02ecyT0PPm/UZvtRpWrnBjcEVtHEJNp\n" +
+      "bU9pLD5iZ0J9sbzPU/LxPmuAP2Bs8JmTn6aFRspFrP7W0s1Nmk2jsm0CgYEAyH0X\n" +
+      "+jpoqxj4efZfkUrg5GbSEhf+dZglf0tTOA5bVg8IYwtmNk/pniLG/zI7c+GlTc9B\n" +
+      "BwfMr59EzBq/eFMI7+LgXaVUsM/sS4Ry+yeK6SJx/otIMWtDfqxsLD8CPMCRvecC\n" +
+      "2Pip4uSgrl0MOebl9XKp57GoaUWRWRHqwV4Y6h8CgYAZhI4mh4qZtnhKjY4TKDjx\n" +
+      "QYufXSdLAi9v3FxmvchDwOgn4L+PRVdMwDNms2bsL0m5uPn104EzM6w1vzz1zwKz\n" +
+      "5pTpPI0OjgWN13Tq8+PKvm/4Ga2MjgOgPWQkslulO/oMcXbPwWC3hcRdr9tcQtn9\n" +
+      "Imf9n2spL/6EDFId+Hp/7QKBgAqlWdiXsWckdE1Fn91/NGHsc8syKvjjk1onDcw0\n" +
+      "NvVi5vcba9oGdElJX3e9mxqUKMrw7msJJv1MX8LWyMQC5L6YNYHDfbPF1q5L4i8j\n" +
+      "8mRex97UVokJQRRA452V2vCO6S5ETgpnad36de3MUxHgCOX3qL382Qx9/THVmbma\n" +
+      "3YfRAoGAUxL/Eu5yvMK8SAt/dJK6FedngcM3JEFNplmtLYVLWhkIlNRGDwkg3I5K\n" +
+      "y18Ae9n7dHVueyslrb6weq7dTkYDi3iOYRW8HRkIQh06wEdbxt0shTzAJvvCQfrB\n" +
+      "jg/3747WSsf/zBTcHihTRBdAv6OmdhV4/dD5YBfLAkLrd+mX7iE=\n" +
       "-----END PRIVATE KEY-----"
 
   /**
@@ -57,16 +56,17 @@ class QuintoAndarKeycloakJwtSpec extends Specification {
    *   "typ": "JWT"
    * },
    * payload: {
-   *   "id": 7,
-   *   "name": "James Bond",
-   *   "email": "james.bond@quintoandar.com.br",
-   *   "role": "admin"
+   *  "id": "86",
+   *  "name": "Maxwell Smart",
+   *  "email": "maxwell.smart@quintoandar.com.br",
+   *  "role": "admin",
+   *  "exp": 4102455600000
    * }
    *
    * (generated by https://jwt.io/)
    */
   @Shared
-  def fakeJwt = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6IkphbWVzIEJvbmQiLCJlbWFpbCI6ImphbWVzLmJvbmRAcXVpbnRvYW5kYXIuY29tLmJyIiwicm9sZSI6ImFkbWluIn0.piI9eOSM06yfh9Lzy8O0iUW18mIGql7vSIEjWYrm6pbZCQNV-7LxU12PXO2ZdH-zqbv7VVtkJvuO3pseACKYzsukXbswb9Rc_v77UaqMj4QGXHTJfoniL0mFAMxcqJcJVgmS2mE03gKh62y_BA8Emh2Gbal-44grYPn2HOG7nNjGa799SKtvqSG2beilEnXXURidH5QNA7kWXIkLfVbRgMjTmu8axQUHa98dP95Hopnn2-6CJGtpPyZUqT9df76_r8B2oMY4N6pJJWo-ik8y7DAV8WyJVsLQTj_1rzHLGxtMT7aXEEtAufGovgBc7qV1Vgu4VhsoIpqQEqnby5m7jQ"
+  def fakeJwt = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODYsIm5hbWUiOiJNYXh3ZWxsIFNtYXJ0IiwiZW1haWwiOiJtYXh3ZWxsLnNtYXJ0QHF1aW50b2FuZGFyLmNvbS5iciIsInJvbGUiOiJhZG1pbiIsImV4cCI6NDEwMjQ1NTYwMDAwMH0.TMNdNzFKjrRqt72tdW5PMti1tee_13787UWkqP_sPsmWXkmtlChFgIzEKiWj0aR9NqcUrVWn0U4jGMpnD45BZ7k7CoRvROR06nrUkvJStptEU_H4dGbQId5oJcGzSz92sEJ7GtNmVfW2uiHK71ipY5jy7CosviHwDKAwEcMTJWJp58rbNBoO-esQb-CRztMvHZ5WSl0gxB6pXmglV95um6GAa_Qfve4lAEocTRci9WowHfVdhvPQDKsl7oMTod6Iz3OpPnPlPPH6XMAFs709juuHy3kCUxEv48rQVypUN-Cpn6a53wW1tq7RDJJnXv5bhvTm3421bMJV7kav7bdCmg"
 
   def setupSpec() {
     keycloakPublicKeyServiceMock.fetchKeycloakPublicKey() >> fakePublicKey2048bit
@@ -82,10 +82,11 @@ class QuintoAndarKeycloakJwtSpec extends Specification {
 
     and:
     def claims = result.get()
-    claims.get("id") == 7
-    claims.get("name") == "James Bond"
-    claims.get("email") == "james.bond@quintoandar.com.br"
+    claims.get("id") == 86
+    claims.get("name") == "Maxwell Smart"
+    claims.get("email") == "maxwell.smart@quintoandar.com.br"
     claims.get("role") == "admin"
+    claims.get("exp") == 4102455600000
   }
 
   def "get payload from invalid Keycloak jwt throws exception"() {

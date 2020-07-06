@@ -59,7 +59,7 @@ public class QuintoAndarKeycloakJwtBean implements QuintoAndarKeycloakJwt {
             final X509EncodedKeySpec keySpec = getPublicKeySpec();
             final RSAPublicKey publicKey = (RSAPublicKey) keyFactory.generatePublic(keySpec);
             final RsaJsonWebKey webKey = new RsaJsonWebKey(publicKey);
-            jwtConsumer = new JwtConsumerBuilder().setVerificationKey(webKey.getKey()).build();
+            jwtConsumer = new JwtConsumerBuilder().setRequireExpirationTime().setVerificationKey(webKey.getKey()).build();
         } catch (NoSuchAlgorithmException | IOException | InvalidKeySpecException e) {
             throw new SetupException(e);
         }
