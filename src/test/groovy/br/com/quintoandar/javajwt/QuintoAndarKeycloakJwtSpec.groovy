@@ -4,24 +4,22 @@ import org.jose4j.jwt.consumer.InvalidJwtException
 import spock.lang.Shared
 import spock.lang.Specification
 
-class QuintoAndarJwtSpec extends Specification {
+class QuintoAndarKeycloakJwtSpec extends Specification {
 
   @Shared
-  def publicKeyServiceMock = Mock(QuintoAndarPublicKeyService)
+  def keycloakPublicKeyServiceMock = Mock(QuintoAndarKeycloakPublicKeyService)
 
   @Shared
-  def subject = GroovySpy(QuintoAndarJwtBean)
+  def keycloakSubject = GroovySpy(QuintoAndarKeycloakJwtBean)
 
   @Shared
-  def fakePublicKey2048bit = "-----BEGIN PUBLIC KEY-----\n" +
-      "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6A+CGRKw/xpaAqy/1eJl\n" +
-      "f5urRzmUWhgGVNedUhmgMudMBQIXPYVOWQQydWq/e+SaxdT7fRQE/Ae0eOCPgwty\n" +
-      "FmLoA/ugGT0AGF5juXBzCwXY9iLdIejQPDbbVVMICFteRCDkLaLZy4U3qj895TzZ\n" +
-      "Hg7gXwo4l3oi4EUT6MchMANGw4D4/SIZcdzm9R/pV9+AHYaA1k8YP612YXFe4W39\n" +
-      "ZPXuQrz/Lnys7MgPo/NSpKmxMp82el/vVW9wlQKA4fY/zz7GgfsUf25hVpnCC8V6\n" +
-      "b1kIU+5TfYSjTThHfSqI8aDIXohIiQu3KISNXqJV4Tx+PMqeQkKT0GIaqKM+b4jP\n" +
-      "WQIDAQAB\n" +
-      "-----END PUBLIC KEY-----"
+  def fakePublicKey2048bit = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AM\n" +
+      "IIBCgKCAQEA6A+CGRKw/xpaAqy/1eJlf5urRzmUWhgGVNedUhmgMudMBQIXPYVOW\n" +
+      "QQydWq/e+SaxdT7fRQE/Ae0eOCPgwtyFmLoA/ugGT0AGF5juXBzCwXY9iLdIejQP\n" +
+      "DbbVVMICFteRCDkLaLZy4U3qj895TzZHg7gXwo4l3oi4EUT6MchMANGw4D4/SIZc\n" +
+      "dzm9R/pV9+AHYaA1k8YP612YXFe4W39ZPXuQrz/Lnys7MgPo/NSpKmxMp82el/vV\n" +
+      "W9wlQKA4fY/zz7GgfsUf25hVpnCC8V6b1kIU+5TfYSjTThHfSqI8aDIXohIiQu3K\n" +
+      "ISNXqJV4Tx+PMqeQkKT0GIaqKM+b4jPWQIDAQAB"
 
   @Shared
   def fakePrivateKey2048bit = "-----BEGIN PRIVATE KEY-----\n" +
@@ -71,13 +69,13 @@ class QuintoAndarJwtSpec extends Specification {
   def fakeJwt = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6IkphbWVzIEJvbmQiLCJlbWFpbCI6ImphbWVzLmJvbmRAcXVpbnRvYW5kYXIuY29tLmJyIiwicm9sZSI6ImFkbWluIn0.piI9eOSM06yfh9Lzy8O0iUW18mIGql7vSIEjWYrm6pbZCQNV-7LxU12PXO2ZdH-zqbv7VVtkJvuO3pseACKYzsukXbswb9Rc_v77UaqMj4QGXHTJfoniL0mFAMxcqJcJVgmS2mE03gKh62y_BA8Emh2Gbal-44grYPn2HOG7nNjGa799SKtvqSG2beilEnXXURidH5QNA7kWXIkLfVbRgMjTmu8axQUHa98dP95Hopnn2-6CJGtpPyZUqT9df76_r8B2oMY4N6pJJWo-ik8y7DAV8WyJVsLQTj_1rzHLGxtMT7aXEEtAufGovgBc7qV1Vgu4VhsoIpqQEqnby5m7jQ"
 
   def setupSpec() {
-    publicKeyServiceMock.fetchMainPublicKey() >> fakePublicKey2048bit
-    subject.quintoAndarPublicKeyService = publicKeyServiceMock
+    keycloakPublicKeyServiceMock.fetchKeycloakPublicKey() >> fakePublicKey2048bit
+    keycloakSubject.quintoAndarKeycloakPublicKeyService = keycloakPublicKeyServiceMock
   }
 
-  def "get payload from valid Main jwt"() {
+  def "get payload from valid Keycloak jwt"() {
     when:
-    def result = subject.getPayload(fakeJwt)
+    def result = keycloakSubject.getPayload(fakeJwt)
 
     then:
     result.isPresent()
@@ -90,7 +88,7 @@ class QuintoAndarJwtSpec extends Specification {
     claims.get("role") == "admin"
   }
 
-  def "get payload from invalid Main jwt throws exception"() {
+  def "get payload from invalid Keycloak jwt throws exception"() {
     given:
     def jwtForOtherKeys = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6IkphbWVzIEJvbmQiLCJlbWFpbCI6Imphb" +
         "WVzLmJvbmRAcXVpbnRvYW5kYXIuY29tLmJyIiwicm9sZSI6ImFkbWluIn0.fwuOMtnmdKV7QeesDPWIsK-5Ipanv9PHPenzUWg5EOXG639z9" +
@@ -99,7 +97,7 @@ class QuintoAndarJwtSpec extends Specification {
         "1ypOaXe8A5VVr1YDRpxlcBHvbxymCR0uJmeq2HCuAPyoN97KQHLrw5ehJ5TyLKTCDTm1aSjnl1O0g"
 
     when:
-    def result = subject.getPayload(jwtForOtherKeys)
+    def result = keycloakSubject.getPayload(jwtForOtherKeys)
 
     then:
     thrown(InvalidJwtException)

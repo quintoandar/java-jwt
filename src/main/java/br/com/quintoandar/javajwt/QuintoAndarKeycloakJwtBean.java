@@ -18,7 +18,7 @@ import java.util.Base64;
 import java.util.Map;
 import java.util.Optional;
 
-public class QuintoAndarKeycloakJwtBean implements QuintoAndarJwt {
+public class QuintoAndarKeycloakJwtBean implements QuintoAndarKeycloakJwt {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(QuintoAndarKeycloakJwtBean.class);
 
