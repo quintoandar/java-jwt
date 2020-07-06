@@ -13,6 +13,12 @@ class QuintoAndarJwtSpec extends Specification {
   def subject = GroovySpy(QuintoAndarJwtBean)
 
   @Shared
+  def keycloakPublicKeyServiceMock = Mock(QuintoAndarKeycloakPublicKeyService)
+
+  @Shared
+  def keycloakSubject = GroovySpy(QuintoAndarKeycloakJwtBean)
+
+  @Shared
   def fakePublicKey2048bit = "-----BEGIN PUBLIC KEY-----\n" +
       "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6A+CGRKw/xpaAqy/1eJl\n" +
       "f5urRzmUWhgGVNedUhmgMudMBQIXPYVOWQQydWq/e+SaxdT7fRQE/Ae0eOCPgwty\n" +
@@ -22,6 +28,15 @@ class QuintoAndarJwtSpec extends Specification {
       "b1kIU+5TfYSjTThHfSqI8aDIXohIiQu3KISNXqJV4Tx+PMqeQkKT0GIaqKM+b4jP\n" +
       "WQIDAQAB\n" +
       "-----END PUBLIC KEY-----"
+
+  @Shared
+  def fakeKeycloakPublicKey2048bit = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AM\n" +
+      "IIBCgKCAQEA6A+CGRKw/xpaAqy/1eJlf5urRzmUWhgGVNedUhmgMudMBQIXPYVOW\n" +
+      "QQydWq/e+SaxdT7fRQE/Ae0eOCPgwtyFmLoA/ugGT0AGF5juXBzCwXY9iLdIejQP\n" +
+      "DbbVVMICFteRCDkLaLZy4U3qj895TzZHg7gXwo4l3oi4EUT6MchMANGw4D4/SIZc\n" +
+      "dzm9R/pV9+AHYaA1k8YP612YXFe4W39ZPXuQrz/Lnys7MgPo/NSpKmxMp82el/vV\n" +
+      "W9wlQKA4fY/zz7GgfsUf25hVpnCC8V6b1kIU+5TfYSjTThHfSqI8aDIXohIiQu3K\n" +
+      "ISNXqJV4Tx+PMqeQkKT0GIaqKM+b4jPWQIDAQAB"
 
   @Shared
   def fakePrivateKey2048bit = "-----BEGIN PRIVATE KEY-----\n" +
@@ -72,11 +87,13 @@ class QuintoAndarJwtSpec extends Specification {
 
   def setupSpec() {
     publicKeyServiceMock.fetchMainPublicKey() >> fakePublicKey2048bit
-
     subject.quintoAndarPublicKeyService = publicKeyServiceMock
+
+    keycloakPublicKeyServiceMock.fetchKeycloakPublicKey() >> fakeKeycloakPublicKey2048bit
+    keycloakSubject.quintoAndarKeycloakPublicKeyService = keycloakPublicKeyServiceMock
   }
 
-  def "get payload from valid jwt"() {
+  def "get payload from valid Main jwt"() {
     when:
     def result = subject.getPayload(fakeJwt)
 
@@ -91,7 +108,7 @@ class QuintoAndarJwtSpec extends Specification {
     claims.get("role") == "admin"
   }
 
-  def "get payload from invalid jwt throws exception"() {
+  def "get payload from invalid Main jwt throws exception"() {
     given:
     def jwtForOtherKeys = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6IkphbWVzIEJvbmQiLCJlbWFpbCI6Imphb" +
         "WVzLmJvbmRAcXVpbnRvYW5kYXIuY29tLmJyIiwicm9sZSI6ImFkbWluIn0.fwuOMtnmdKV7QeesDPWIsK-5Ipanv9PHPenzUWg5EOXG639z9" +
@@ -101,6 +118,36 @@ class QuintoAndarJwtSpec extends Specification {
 
     when:
     def result = subject.getPayload(jwtForOtherKeys)
+
+    then:
+    thrown(InvalidJwtException)
+  }
+
+  def "get payload from valid Keycloak jwt"() {
+    when:
+    def result = keycloakSubject.getPayload(fakeJwt)
+
+    then:
+    result.isPresent()
+
+    and:
+    def claims = result.get()
+    claims.get("id") == 7
+    claims.get("name") == "James Bond"
+    claims.get("email") == "james.bond@quintoandar.com.br"
+    claims.get("role") == "admin"
+  }
+
+  def "get payload from invalid Keycloak jwt throws exception"() {
+    given:
+    def jwtForOtherKeys = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6IkphbWVzIEJvbmQiLCJlbWFpbCI6Imphb" +
+        "WVzLmJvbmRAcXVpbnRvYW5kYXIuY29tLmJyIiwicm9sZSI6ImFkbWluIn0.fwuOMtnmdKV7QeesDPWIsK-5Ipanv9PHPenzUWg5EOXG639z9" +
+        "9EzEFn3Fcy-cBTqEPrzm1JorhfVvfABOEZaz7Kocv058lcUSnTQhVgAhu9GVo5CaQmPg6gDKBkndQ0n4wu-pW_c-q3AKr5auJW8gxs9AoJRH" +
+        "1c5gQ-ablFJrOX4m2z17j81Aa-t8wM0jfbASJcu6omHaX5C4BLL7IzbYRUhE47lje3_D7SeXpciGPomI8Hl8hOo4dQpO8bZgO_uSTHDfTsoE" +
+        "1ypOaXe8A5VVr1YDRpxlcBHvbxymCR0uJmeq2HCuAPyoN97KQHLrw5ehJ5TyLKTCDTm1aSjnl1O0g"
+
+    when:
+    def result = keycloakSubject.getPayload(jwtForOtherKeys)
 
     then:
     thrown(InvalidJwtException)
