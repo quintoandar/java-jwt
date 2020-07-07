@@ -33,7 +33,7 @@ public class QuintoAndarKeycloakJwtBean implements QuintoAndarKeycloakJwt {
         this.quintoAndarKeycloakPublicKeyService = quintoAndarKeycloakPublicKeyService;
     }
 
-    @Autowired
+    @Override
     public Optional<Map<String, Object>> getPayload(final String jwt) throws InvalidJwtException {
         if (jwt == null) {
             return Optional.empty();

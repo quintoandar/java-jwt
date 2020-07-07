@@ -28,7 +28,6 @@ public class QuintoAndarKeycloakPublicKeyService {
         this.quintoandarProperties = quintoandarProperties;
     }
 
-    // visible for testing
     protected String fetchKeycloakPublicKey() throws IOException {
         final String JWT_KEYCLOAK_PATH = quintoandarProperties.getKeycloakUrl();
 
