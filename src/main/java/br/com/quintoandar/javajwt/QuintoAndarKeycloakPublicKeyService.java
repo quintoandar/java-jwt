@@ -29,10 +29,10 @@ public class QuintoAndarKeycloakPublicKeyService {
     }
 
     protected String fetchKeycloakPublicKey() throws IOException {
-        final String JWT_KEYCLOAK_PATH = quintoandarProperties.getKeycloakUrl();
+        final String JWT_KC_PATH = quintoandarProperties.getKeycloakUrl();
 
-        LOGGER.info("Opening connection to {}", JWT_KEYCLOAK_PATH);
-        final URL url = new URL(JWT_KEYCLOAK_PATH);
+        LOGGER.info("Opening connection to {}", JWT_KC_PATH);
+        final URL url = new URL(JWT_KC_PATH);
         final URLConnection connection = url.openConnection();
         connection.connect();
 
