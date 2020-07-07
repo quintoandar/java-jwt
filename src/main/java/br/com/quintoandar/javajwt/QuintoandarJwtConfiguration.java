@@ -21,8 +21,18 @@ public class QuintoandarJwtConfiguration {
     }
 
     @Bean
+    public QuintoAndarKeycloakJwt quintoAndarKeycloakJwt() {
+        return new QuintoAndarKeycloakJwtBean(quintoAndarKeycloakPublicKeyService());
+    }
+
+    @Bean
     public QuintoAndarPublicKeyService quintoAndarPublicKeyService() {
         return new QuintoAndarPublicKeyService(quintoandarProperties);
+    }
+
+    @Bean
+    public QuintoAndarKeycloakPublicKeyService quintoAndarKeycloakPublicKeyService() {
+        return new QuintoAndarKeycloakPublicKeyService(quintoandarProperties);
     }
 
 }

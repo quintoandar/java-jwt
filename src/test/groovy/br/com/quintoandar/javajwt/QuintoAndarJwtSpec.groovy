@@ -72,11 +72,10 @@ class QuintoAndarJwtSpec extends Specification {
 
   def setupSpec() {
     publicKeyServiceMock.fetchMainPublicKey() >> fakePublicKey2048bit
-
     subject.quintoAndarPublicKeyService = publicKeyServiceMock
   }
 
-  def "get payload from valid jwt"() {
+  def "get payload from valid Main jwt"() {
     when:
     def result = subject.getPayload(fakeJwt)
 
@@ -91,7 +90,7 @@ class QuintoAndarJwtSpec extends Specification {
     claims.get("role") == "admin"
   }
 
-  def "get payload from invalid jwt throws exception"() {
+  def "get payload from invalid Main jwt throws exception"() {
     given:
     def jwtForOtherKeys = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6IkphbWVzIEJvbmQiLCJlbWFpbCI6Imphb" +
         "WVzLmJvbmRAcXVpbnRvYW5kYXIuY29tLmJyIiwicm9sZSI6ImFkbWluIn0.fwuOMtnmdKV7QeesDPWIsK-5Ipanv9PHPenzUWg5EOXG639z9" +
