@@ -61,6 +61,7 @@ public class QuintoAndarKeycloakJwtBean implements QuintoAndarKeycloakJwt {
             final RsaJsonWebKey webKey = new RsaJsonWebKey(publicKey);
             jwtConsumer = new JwtConsumerBuilder()
                     .setRequireExpirationTime()
+                    .setSkipDefaultAudienceValidation()
                     .setVerificationKey(webKey.getKey()).build();
         } catch (NoSuchAlgorithmException | IOException | InvalidKeySpecException e) {
             throw new SetupException(e);
