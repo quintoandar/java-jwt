@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'br.com.quintoandar'
-version '1.6.1'
+version '1.6.2'
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
@@ -63,7 +63,7 @@ publishing {
     mavenJava(MavenPublication) {
       groupId = 'br.com.quintoandar'
       artifactId = 'java-jwt'
-      version = '1.6.1'
+      version = '1.6.2'
       from components.java
       artifact sourcesJar
       artifact javadocJar
