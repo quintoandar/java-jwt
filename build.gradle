@@ -23,7 +23,7 @@ dependencies {
     compile('org.springframework:spring-beans:5.0.8.RELEASE')
     compile('org.codehaus.groovy:groovy-all:2.4.15')
     compile('commons-io:commons-io:2.6')
-    compile('org.bitbucket.b_c:jose4j:0.6.4')
+    compile('org.bitbucket.b_c:jose4j:0.9.3')
     compile('net.bytebuddy:byte-buddy:1.8.22')
     compile('com.fasterxml.jackson.core:jackson-databind:2.11.1')
 
